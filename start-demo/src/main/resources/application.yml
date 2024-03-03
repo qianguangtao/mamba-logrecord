@@ -1,0 +1,129 @@
+server:
+  port: 8080
+mybatis-plus:
+  mapper-locations: classpath*:mappers/*xml
+  #  type-aliases-package: com.craftsman.facade.entity
+  type-handlers-package: com.app.core.mybatis.handler
+  configuration:
+    default-enum-type-handler: com.app.core.mybatis.CustomizeEnumTypeHandler # 枚举在数据库中存名称
+  #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+spring:
+  jackson:
+    default-property-inclusion: non_null
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 200MB
+  profiles:
+    active: dev
+  application:
+    name: start-admin
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    timeout: 5000
+    lettuce:
+      pool:
+        max-active: 300   #最大连接数据库连接数,设 0 为没有限制
+        max-idle: 10     #最大等待连接中的数量,设 0 为没有限制
+        max-wait: -1  #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。
+        min-idle: 5     #最小等待连接中的数量,设 0 为没有限制
+      shutdown-timeout: 5000
+    database: 0
+  datasource:
+    dynamic:
+      enabled: true
+      primary: master
+      druid:
+        # 初始化大小，最小，最大
+        initial-size: 2
+        min-idle: 2
+        # 最大连接数建议 （CPU核核数 * 2 + 1）
+        max-active: 5
+        # 配置获取连接等待超时的时间
+        #max-wait: 60000
+        # 配置间隔多久启动一次DestroyThread，对连接池内的连接才进行一次检测，单位是毫秒。
+        # 检测时:1.如果连接空闲并且超过minIdle以外的连接，如果空闲时间超过maxEvictableIdleTimeMillis设置的值则直接物理关闭。
+        # 2.在minIdle以内的不处理。 默认值：60 * 1000L
+        #time-between-eviction-runs-millis: 30000
+        # 配置一个连接在池中最小生存的时间，单位是毫秒，默认值：1000L * 60L * 30L
+        #min-evictable-idle-time- millis: 300000
+        # 默认值：1000L * 60L * 60L * 7
+        #max-evictable-idle-time-millis: 600000
+        validation-query: SELECT 1
+        validation-query-timeout: 1
+        # 设置从连接池获取连接时是否检查连接有效性，true时，如果连接空闲时间超过manEvictableIdleTimeMillis进行检查，否则不检查;false时，不检查
+        test-while-idle: true
+        # 指明是否在从池中取出连接时进行检查,每次都检查， validation-query 不能为空
+        test-on-borrow: false
+        # 指明是否在归还到池中前进行检查
+        test-on-return: false
+        # 打开后，增强timeBetweenEvictionRunsMillis的周期性连接检查，minIdle内的空闲连接，每次检查强制验证连接有效性. 参考：https://github.com/alibaba/druid/wiki/KeepAlive_cn
+        keep-alive: true
+        # 打开PSCache，Oracle等支持游标的数据库，打开此开关，会以数量级提升性能，具体查阅PSCache相关资料
+        pool-prepared-statements: true
+        # 指定每个连接上PSCache的大小
+        max-pool-prepared-statement-per-connection-size: 20
+        ## 超过时间限制是否回收
+        #remove-abandoned: true
+        ## 超时时间、单位：秒
+        #remove-abandoned-timeout: 60
+        ## 关闭 abandoned 连接时输出错误日志
+        #log-abandoned: true
+        # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙，防 sql 注入 ,wall,log4j
+        filters: stat,wall,slf4j
+        # 数据库监控统计： StatFilter
+        stat:
+          # 记录慢 sql 配置
+          db-type: mysql
+          log-slow-sql: true
+          merge-sql: true
+          # 慢 sql 标准
+          slow-sql-millis: 5000
+        # 防火墙，防 sql 注入
+        wall:
+          multi-statement-allow: true
+          none-base-statement-allow: true
+        slf4j:
+          data-source-log-enabled: false
+          connection-close-after-log-enabled: false
+          # 格式化 SQL：com.alibaba.druid.filter.logging.LogFilter.logExecutableSql
+          statement-executable-sql-log-enable: true
+          statement-close-after-log-enabled: false
+          result-set-log-enabled: false
+      datasource:
+        master:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          type: com.alibaba.druid.pool.DruidDataSource
+        slave:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          type: com.alibaba.druid.pool.DruidDataSource
+app:
+  common:
+    env: ${spring.profiles.active}
+    port: ${server.port}
+    swaggerEnabled: true
+    printBeanEnabled: true
+  desensitization:
+    enabled: true # 是否启用脱敏
+  encrypt:
+    fieldEncryptEnabled: true # 开启加密
+    fieldEncryptType: aes # 加密类型，可选项为：aes、des、desede、rc4
+    #    fieldEncryptKey: VfInPMRgbljQNGnZFnsO+A== # 加密密钥
+    fieldEncryptKey: ENC(1gzmW89xsT0E2mHqUnQ9FXfD/I0wmZoAI+mpCCjLlZPEuwDJkfgZgOhUI1Ej2Mot) # 加密密钥
+    primaryEncryptEnabled: true # 开启加密
+    primaryEncryptType: aes # 加密类型，可选项为：aes、des、desede、rc4
+    #    primaryEncryptKey: VfInPMRgbljQNGnZFnsO+A== # 加密密钥
+    primaryEncryptKey: ENC(1gzmW89xsT0E2mHqUnQ9FXfD/I0wmZoAI+mpCCjLlZPEuwDJkfgZgOhUI1Ej2Mot) # 加密密钥
+jasypt:
+  encryptor:
+    password: 6782bc11b94c4c788e4b731471e6c103
+    algorithm: PBEWithMD5AndDES # 默认PBEWITHHMACSHA512ANDAES_256

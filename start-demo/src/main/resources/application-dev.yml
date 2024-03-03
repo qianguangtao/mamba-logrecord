@@ -1,0 +1,20 @@
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+  datasource:
+    dynamic:
+      enabled: true
+      primary: master
+      datasource:
+        master:
+          url: jdbc:mysql://localhost:3306/mamba_logrecord?serverTimezone=GMT%2B8&useSSL=false&allowMultiQueries=true
+          username: root
+          password: 1990
+#          password: ENC(gEmbKwV0/dGkC9fQ/z3Tetqz1oS2nDEXl+z3QUugJgo=)
+        slave:
+          url: jdbc:mysql://localhost:3306/mamba_logrecord?serverTimezone=GMT%2B8&useSSL=false&allowMultiQueries=true
+          username: root
+          password: 1990
+#          password: ENC(gEmbKwV0/dGkC9fQ/z3Tetqz1oS2nDEXl+z3QUugJgo=)
+

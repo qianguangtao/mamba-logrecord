@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.dictionary.mapper.DictItemMapper">
+
+    <insert id="insertBatch" parameterType="List">
+        INSERT INTO dict_item(dict_code, item_key, item_value, description, sort_order, enabled)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.dictCode},
+            #{item.itemKey},
+            #{item.itemValue},
+            #{item.description},
+            #{item.sortOrder},
+            #{item.enabled}
+            )
+        </foreach>
+    </insert>
+</mapper>
