@@ -269,6 +269,7 @@ public User insert(@LogRecordModel("userDto") UserDto userDto)
 ```
 
 ## 测试
+### 修改yml中的redis、mysql配置
 ### 新增用户
 POST http://127.0.0.1:8080/users
 
