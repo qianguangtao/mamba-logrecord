@@ -24,7 +24,7 @@
 5. Disruptor队列
 6. Mybatis TypeHandler
 
-## 表设计
+## 表设计（DDL sql见文末）
 
 user：记录user表的新增，修改记录
 
@@ -506,4 +506,105 @@ PUT http://127.0.0.1:8080/users
 
 表operation_field
 ![image](https://github.com/qianguangtao/mamba-logrecord/assets/6427290/e77785af-2e33-4702-a328-e45fd2107b84)
+
+## Mysql DDL sql
+```java
+DROP TABLE IF EXISTS dict;
+CREATE TABLE dict(
+    `id` BIGINT NOT NULL AUTO_INCREMENT  COMMENT '数据ID，主键自增' ,
+    `dict_code` VARCHAR(32) NOT NULL   COMMENT '字典编码' ,
+    `dict_name` VARCHAR(256) NOT NULL   COMMENT '字典名称' ,
+    `description` VARCHAR(255)    COMMENT '描述' ,
+    `create_time` DATETIME NOT NULL   COMMENT '创建时间' ,
+    `create_by` BIGINT    COMMENT '创建用户id' ,
+    `update_time` DATETIME NOT NULL   COMMENT '修改时间' ,
+    `update_by` BIGINT    COMMENT '修改用户id' ,
+    `deleted` TINYINT NOT NULL  DEFAULT 0 COMMENT '删除状态' ,
+    PRIMARY KEY (id)
+)  COMMENT = '字典';
+
+DROP TABLE IF EXISTS dict_item;
+CREATE TABLE dict_item(
+    `id` BIGINT NOT NULL AUTO_INCREMENT  COMMENT '数据ID，主键自增' ,
+    `dict_code` VARCHAR(32) NOT NULL   COMMENT '字典id' ,
+    `item_key` VARCHAR(64) NOT NULL   COMMENT '字典项文本' ,
+    `item_value` VARCHAR(1024) NOT NULL   COMMENT '字典项值' ,
+    `description` VARCHAR(1024)    COMMENT '描述' ,
+    `sort_order` INT    COMMENT '排序' ,
+    `enabled` TINYINT NOT NULL  DEFAULT 1 COMMENT '状态（1启用 0不启用）' ,
+    `create_time` DATETIME NOT NULL   COMMENT '创建时间' ,
+    `create_by` BIGINT    COMMENT '创建用户id' ,
+    `update_time` DATETIME NOT NULL   COMMENT '修改时间' ,
+    `update_by` BIGINT    COMMENT '修改用户id' ,
+    `deleted` TINYINT NOT NULL  DEFAULT 0 COMMENT '删除状态' ,
+    PRIMARY KEY (id)
+)  COMMENT = '字典条目';
+
+DROP TABLE IF EXISTS user;
+CREATE TABLE user(
+    `id` BIGINT NOT NULL AUTO_INCREMENT  COMMENT '' ,
+    `username` VARCHAR(32)    COMMENT '用户名' ,
+    `password` VARCHAR(128)    COMMENT '密码' ,
+    `cellphone` VARCHAR(11)    COMMENT '手机号' ,
+    `email` VARCHAR(64)    COMMENT '邮箱' ,
+    `address` json    COMMENT '地址' ,
+    `sex` VARCHAR(2)    COMMENT '性别;0-女，1-男，2-未知' ,
+    `age` INT    COMMENT '年龄' ,
+    `roles` VARCHAR(255)    COMMENT '角色;json数组' ,
+    `source` VARCHAR(2)    COMMENT '用户来源;1-系统，2-导入' ,
+    `enabled` VARCHAR(255)   DEFAULT 1 COMMENT '是否开启;1-是，0-否' ,
+    `create_time` DATETIME NOT NULL   COMMENT '创建时间' ,
+    `create_by` BIGINT    COMMENT '创建用户id' ,
+    `update_time` DATETIME NOT NULL   COMMENT '修改时间' ,
+    `update_by` BIGINT    COMMENT '修改用户id' ,
+    `deleted` TINYINT NOT NULL  DEFAULT 0 COMMENT '删除状态' ,
+    PRIMARY KEY (id)
+)  COMMENT = '用户';
+
+DROP TABLE IF EXISTS operation_field;
+CREATE TABLE operation_field(
+    `id` bigint(20) NOT NULL AUTO_INCREMENT  COMMENT '主键' ,
+    `operation_id` bigint(20) NOT NULL   COMMENT '操作记录id' ,
+    `field_name` VARCHAR(128) NOT NULL   COMMENT '字段名（英文）' ,
+    `field_name_show` VARCHAR(128) NOT NULL   COMMENT '字段名（中文）' ,
+    `change_type` VARCHAR(2) NOT NULL   COMMENT '修改类型;1-新增（null变为有值）；2-编辑（值改变）；3-删除（有值变没值）' ,
+    `field_before` TEXT    COMMENT '字段修改前值' ,
+    `field_before_show` TEXT    COMMENT '字段修改前值（字典，枚举等转换后）' ,
+    `field_after` TEXT    COMMENT '字段修改后值' ,
+    `field_after_show` TEXT    COMMENT '字段修改后值（字典，枚举等转换后）' ,
+    `deleted` tinyint(4) NOT NULL  DEFAULT 0 COMMENT '删除标志;0-未删除；1-已删除。' ,
+    `create_by` bigint(20)    COMMENT '创建人' ,
+    `create_time` DATETIME NOT NULL   COMMENT '创建时间' ,
+    `update_by` bigint(20)    COMMENT '更新人' ,
+    `update_time` DATETIME NOT NULL   COMMENT '更新时间' ,
+    PRIMARY KEY (id)
+)  COMMENT = '操作字段';
+
+DROP TABLE IF EXISTS operation;
+CREATE TABLE operation(
+    `id` bigint(20) NOT NULL AUTO_INCREMENT  COMMENT '主键' ,
+    `business_id` bigint(20) NOT NULL   COMMENT '业务id;各个业务表的id' ,
+    `type` VARCHAR(2)    COMMENT '操作类型;1-申请；2-审核' ,
+    `description` VARCHAR(255)    COMMENT '描述' ,
+    `class_before` VARCHAR(255)    COMMENT '操作前类全路径' ,
+    `class_after` VARCHAR(255)    COMMENT '操作后类全路径' ,
+    `json_before` TEXT    COMMENT '操作前数据json;保存操作前的json string' ,
+    `json_after` TEXT    COMMENT '操作后数据json;保存操作后的json string' ,
+    `operator_name` VARCHAR(36)    COMMENT '操作人姓名' ,
+    `deleted` tinyint(4) NOT NULL  DEFAULT 0 COMMENT '删除标志;0-未删除；1-已删除。' ,
+    `create_by` bigint(20)    COMMENT '创建人' ,
+    `create_time` DATETIME NOT NULL   COMMENT '创建时间' ,
+    `update_by` bigint(20)    COMMENT '更新人' ,
+    `update_time` DATETIME NOT NULL   COMMENT '更新时间' ,
+    PRIMARY KEY (id)
+)  COMMENT = '操作记录';
+
+-- 初始化数据
+INSERT INTO `dict`(`id`, `dict_code`, `dict_name`, `description`, `create_time`, `create_by`, `update_time`, `update_by`, `deleted`) VALUES (1, 'UserSource', '用户来源', '用户来源', '2024-03-03 14:28:29', NULL, '2024-03-03 14:28:32', NULL, 0);
+
+INSERT INTO `dict_item`(`id`, `dict_code`, `item_key`, `item_value`, `description`, `sort_order`, `enabled`, `create_time`, `create_by`, `update_time`, `update_by`, `deleted`) VALUES (1, 'UserSource', '1', '系统', NULL, 0, 1, '2024-03-03 14:29:12', NULL, '2024-03-03 14:29:14', NULL, 0);
+INSERT INTO `dict_item`(`id`, `dict_code`, `item_key`, `item_value`, `description`, `sort_order`, `enabled`, `create_time`, `create_by`, `update_time`, `update_by`, `deleted`) VALUES (2, 'UserSource', '2', '导入', NULL, 0, 1, '2024-03-03 14:29:12', NULL, '2024-03-03 14:29:14', NULL, 0);
+
+
+```
 
