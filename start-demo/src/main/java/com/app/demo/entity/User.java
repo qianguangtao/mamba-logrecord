@@ -66,21 +66,21 @@ public class User extends BaseEntity {
     @ApiModelProperty(value = "用户来源")
     private String source;
 
-    @LogRecordField(value = "用户类型", translator = EnumTranslator.class)
-    @ApiModelProperty(value = "用户类型")
+    @LogRecordField(value = "性别", translator = EnumTranslator.class)
+    @ApiModelProperty(value = "性别")
     private SexEnum sex;
 
-    @LogRecordField(value = "用户类型", translator = ListTranslator.class)
-    @ApiModelProperty(value = "用户类型")
+    @LogRecordField(value = "用户角色", translator = ListTranslator.class)
+    @ApiModelProperty(value = "用户角色")
     @TableField(value = "roles", typeHandler = StringListTypeHandler.class)
     private List<String> roles;
 
-    @LogRecordField(value = "用户类型", translator = BoolTranslator.class)
-    @ApiModelProperty(value = "用户类型")
+    @LogRecordField(value = "是否启用", translator = BoolTranslator.class)
+    @ApiModelProperty(value = "是否启用")
     private Boolean enabled;
 
-    @LogRecordField(value = "用户类型", translatorTemplate = AddressTranslatorTemplate.class)
-    @ApiModelProperty(value = "用户类型")
+    @LogRecordField(value = "地址", translatorTemplate = AddressTranslatorTemplate.class)
+    @ApiModelProperty(value = "地址")
     private String address;
 
 }

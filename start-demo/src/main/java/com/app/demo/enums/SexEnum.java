@@ -31,4 +31,8 @@ public enum SexEnum implements EnumDefinition {
         return this.comment;
     }
 
+    @Override
+    public String toString() {
+        return code;
+    }
 }
