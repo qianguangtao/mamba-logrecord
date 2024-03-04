@@ -55,10 +55,10 @@ public @interface LogRecordField {
 
 下面示例了
 1. 普通字段：@LogRecordField(value = "用户名")，标记字段中文名即可
-2. 枚举字段：@LogRecordField(value = "用户类型", translator = EnumTranslator.class)，基于EnumDefinition的注解，要添加转换器translator = EnumTranslator.class
+2. 枚举字段：@LogRecordField(value = "性别", translator = EnumTranslator.class)，基于EnumDefinition的注解，要添加转换器translator = EnumTranslator.class
 3. 字典字段：@LogRecordField(value = "用户来源")，标记字段中文名即可，会根据@Dictionary(DictionaryEnum.Names.UserSource)找字典中文
-4. List比较器：@LogRecordField(value = "用户类型", translator = ListTranslator.class)，ListTranslator中，将List转为json string输出比较
-5. 自定义比较器：@LogRecordField(value = "用户类型", translatorTemplate = AddressTranslatorTemplate.class)，在AddressTranslatorTemplate中，开发人员根据Object oldObject, Object newObject比较差异
+4. List比较器：@LogRecordField(value = "用户角色", translator = ListTranslator.class)，ListTranslator中，将List转为json string输出比较
+5. 自定义比较器：@LogRecordField(value = "地址", translatorTemplate = AddressTranslatorTemplate.class)，在AddressTranslatorTemplate中，开发人员根据Object oldObject, Object newObject比较差异
 
 ```java
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -99,26 +99,50 @@ public class User extends BaseEntity {
     @ApiModelProperty(value = "用户来源")
     private String source;
 
-    @LogRecordField(value = "用户类型", translator = EnumTranslator.class)
-    @ApiModelProperty(value = "用户类型")
+    @LogRecordField(value = "性别", translator = EnumTranslator.class)
+    @ApiModelProperty(value = "性别")
     private SexEnum sex;
 
-    @LogRecordField(value = "用户类型", translator = ListTranslator.class)
-    @ApiModelProperty(value = "用户类型")
+    @LogRecordField(value = "用户角色", translator = ListTranslator.class)
+    @ApiModelProperty(value = "用户角色")
     @TableField(value = "roles", typeHandler = StringListTypeHandler.class)
     private List<String> roles;
 
-    @LogRecordField(value = "用户类型", translator = BoolTranslator.class)
-    @ApiModelProperty(value = "用户类型")
+    @LogRecordField(value = "是否启用", translator = BoolTranslator.class)
+    @ApiModelProperty(value = "是否启用")
     private Boolean enabled;
 
-    @LogRecordField(value = "用户类型", translatorTemplate = AddressTranslatorTemplate.class)
-    @ApiModelProperty(value = "用户类型")
+    @LogRecordField(value = "地址", translatorTemplate = AddressTranslatorTemplate.class)
+    @ApiModelProperty(value = "地址")
     private String address;
 
 }
 ```
+#### 框架内置字段显示名转换器Translator
+1. BoolTranslator
+2. ListTranslator
+3. EnumTranslator
+   
+要想扩展其他类型，实现interface Translator<IN, OUT>即可
+```java
+public interface Translator<IN, OUT> {
 
+    /**
+     * 将输入IN转成输出OUT
+     * @param var
+     * @return
+     */
+    OUT translate(IN var);
+
+    /**
+     * 用来作为注解的默认值
+     */
+    abstract class None implements Translator<Object, Object> {
+        public None() {
+        }
+    }
+}
+```
 #### 自定义翻译模板（抽象模板）
 
 ```java
