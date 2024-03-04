@@ -33,7 +33,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public User insert(@LogRecordModel("userDto") UserDto userDto) {
         User user = BeanUtil.toBean(userDto, User.class);
         user.setAddress(JSON.toJSONString(userDto.getAddress()));
-        return this.save(user) ? user : null;
+        this.save(user);
+        return user;
     }
 
     @LogRecord(key = "#userDto.id",

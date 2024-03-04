@@ -198,11 +198,13 @@ key = "#result.id"，使用Spel从返回值中取businessId
 		desc = "新增用户",
 		operateType = LogOperate.Type.SAVE,
 		oldObjClass = User.class)
+@Transactional(rollbackFor = Exception.class)
 @Override
 public User insert(@LogRecordModel("userDto") UserDto userDto) {
 	User user = BeanUtil.toBean(userDto, User.class);
 	user.setAddress(JSON.toJSONString(userDto.getAddress()));
-	return this.save(user) ? user : null;
+	this.save(user);
+	return user;
 }
 ```
 
@@ -218,11 +220,13 @@ key = "@userMapper.selectById(#root)"，Spel执行userMapper.selectById(#root)�
 		operateType = LogOperate.Type.UPDATE,
 		method = "@userMapper.selectById(#root)",
 		oldObjClass = User.class)
+@Transactional(rollbackFor = Exception.class)
 @Override
 public User edit(@LogRecordModel("userDto") UserDto userDto) {
 	User user = BeanUtil.toBean(userDto, User.class);
 	user.setAddress(JSON.toJSONString(userDto.getAddress()));
-	return this.updateById(user) ? user : null;
+	this.updateById(user);
+	return user;
 }
 ```
 
