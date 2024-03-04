@@ -393,23 +393,18 @@ POST http://127.0.0.1:8080/users
 #### 数据库截图
 
 性别枚举SexEnum保存了中文“男性”；
-
 用户来源保存了字典表dict_item中的中文“系统”；
-
 表operation_field
 ![image](https://github.com/qianguangtao/mamba-logrecord/assets/6427290/c67d3a53-72a7-4eab-a35e-6df2bb52ee21)
 表dict_item
+
 ![image](https://github.com/qianguangtao/mamba-logrecord/assets/6427290/6649a52e-8a01-4770-be77-cb7f9e27dd9f)
 
 ### 修改用户
 PUT http://127.0.0.1:8080/users
-
-请求参数（注意id换成自己的id）
-
+请求参数
 手机号：18657158538改成18682575358
-
 地址：云南省六盘水市改成安徽省芜湖市
-
 年龄：35改36
 ```java
 {
