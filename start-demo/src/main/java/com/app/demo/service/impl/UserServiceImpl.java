@@ -15,6 +15,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             desc = "新增用户",
             operateType = LogOperate.Type.SAVE,
             oldObjClass = User.class)
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public User insert(@LogRecordModel("userDto") UserDto userDto) {
         User user = BeanUtil.toBean(userDto, User.class);
@@ -39,18 +41,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             operateType = LogOperate.Type.UPDATE,
             method = "@userMapper.selectById(#root)",
             oldObjClass = User.class)
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public User edit(@LogRecordModel("userDto") UserDto userDto) {
         User user = BeanUtil.toBean(userDto, User.class);
         user.setAddress(JSON.toJSONString(userDto.getAddress()));
-        return this.updateById(user) ? user : null;
+        this.updateById(user);
+        return user;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void delete(Long id) {
         this.removeById(id);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void delete(List<Long> idList) {
         for (Long id : idList) {
