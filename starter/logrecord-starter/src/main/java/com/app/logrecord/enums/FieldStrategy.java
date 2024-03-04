@@ -4,7 +4,7 @@ package com.app.logrecord.enums;
  * @author qiangt
  * @version 1.0
  * @date 2024/3/4 11:01
- * @description: TODO
+ * @description: 操作记录的字段更新入库策略
  */
 public enum FieldStrategy {
     /**
