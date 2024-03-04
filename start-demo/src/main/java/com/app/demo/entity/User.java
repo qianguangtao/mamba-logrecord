@@ -60,20 +60,25 @@ public class User extends BaseEntity {
     @ApiModelProperty(value = "年龄")
     @LogRecordField(value = "年龄", fieldStrategy = FieldStrategy.UPDATE)
     private Integer age;
+
     @LogRecordField(value = "用户来源")
     @Dictionary(DictionaryEnum.Names.UserSource)
     @ApiModelProperty(value = "用户来源")
     private String source;
+
     @LogRecordField(value = "用户类型", translator = EnumTranslator.class)
     @ApiModelProperty(value = "用户类型")
     private SexEnum sex;
+
     @LogRecordField(value = "用户类型", translator = ListTranslator.class)
     @ApiModelProperty(value = "用户类型")
     @TableField(value = "roles", typeHandler = StringListTypeHandler.class)
     private List<String> roles;
+
     @LogRecordField(value = "用户类型", translator = BoolTranslator.class)
     @ApiModelProperty(value = "用户类型")
     private Boolean enabled;
+
     @LogRecordField(value = "用户类型", translatorTemplate = AddressTranslatorTemplate.class)
     @ApiModelProperty(value = "用户类型")
     private String address;

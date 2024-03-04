@@ -27,6 +27,9 @@ public @interface LogRecord {
     /** 修改时候必填，获取数据库记录的spel表达式。 */
     String method() default "";
 
-    /** 必填，mapperClass返回的entity，新增的时候，用来反射newInstance出空对象进行下一步比较 */
-    Class entityClass() default Object.class;
+    /** 必填，
+     * 新增的时候，用来反射newInstance出空对象进行下一步比较；
+     * 修改的时候，Spel执行查库方法返回Object转的Bean。
+     */
+    Class oldObjClass() default Object.class;
 }

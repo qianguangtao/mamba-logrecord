@@ -74,7 +74,7 @@ public class LogRecordAop {
         try {
             params = AopUtil.getParams(joinPoint);
             paramObj = getLogRecordModelObj(method, params);
-            Class<? extends BaseEntity> entityClass = logRecord.entityClass();
+            Class<? extends BaseEntity> entityClass = logRecord.oldObjClass();
 
             // 如果取业务id的spel不包含result，则是更新，oldObject从数据库中取
             if (key.indexOf(RETURN_SPEL_PREFIX) < 0) {

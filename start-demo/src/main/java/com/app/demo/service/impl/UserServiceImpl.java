@@ -26,7 +26,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @LogRecord(key = "#result.id",
             desc = "新增用户",
             operateType = LogOperate.Type.SAVE,
-            entityClass = User.class)
+            oldObjClass = User.class)
     @Override
     public User insert(@LogRecordModel("userDto") UserDto userDto) {
         User user = BeanUtil.toBean(userDto, User.class);
@@ -38,7 +38,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             desc = "更新用户",
             operateType = LogOperate.Type.UPDATE,
             method = "@userMapper.selectById(#root)",
-            entityClass = User.class)
+            oldObjClass = User.class)
     @Override
     public User edit(@LogRecordModel("userDto") UserDto userDto) {
         User user = BeanUtil.toBean(userDto, User.class);
