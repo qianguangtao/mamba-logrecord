@@ -26,7 +26,21 @@
 
 ## 表设计
 
+user：记录user表的新增，修改记录
+
+operation：操作记录主表，business_id是业务数据id，本demo存的是user.id
+
+operation_field：存哪些字段修改的详情
+
+dict和dict_item：修改字段是字典的，根据code从这里取字典中文
+
+![mamba-logrecord-er er -202434182853](https://github.com/qianguangtao/mamba-logrecord/assets/6427290/aa67a25a-1753-4625-a453-9798db8acf90)
+
+
+
 ## UML类图
+
+![操作记录UML](https://github.com/qianguangtao/mamba-logrecord/assets/6427290/c1951694-ae04-4bf1-b84c-a0884c82595f)
 
 ## 使用说明
 
@@ -407,10 +421,15 @@ POST http://127.0.0.1:8080/users
 
 ### 修改用户
 PUT http://127.0.0.1:8080/users
+
 请求参数
+
 手机号：18657158538改成18682575358
+
 地址：云南省六盘水市改成安徽省芜湖市
+
 年龄：35改36
+
 ```java
 {
     "email": "12345@qq.com",
