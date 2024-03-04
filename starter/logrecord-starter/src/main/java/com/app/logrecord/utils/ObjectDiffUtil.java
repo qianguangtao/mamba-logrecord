@@ -9,6 +9,7 @@ import com.app.core.mvc.serialization.DictionaryTranslator;
 import com.app.kit.SpringKit;
 import com.app.logrecord.annotation.LogRecordField;
 import com.app.logrecord.enums.EditType;
+import com.app.logrecord.enums.FieldStrategy;
 import com.app.logrecord.pojo.FieldDiffDTO;
 import com.app.logrecord.pojo.ObjectDiffDTO;
 import com.app.logrecord.translator.Translator;
@@ -77,6 +78,7 @@ public class ObjectDiffUtil {
                 final Class<? extends Translator> translatorClass = newObjectLogRecordDiff.translator();
                 Class<? extends TranslatorTemplate> translatorTemplateClass = newObjectLogRecordDiff.translatorTemplate();
                 final String nullDesc = newObjectLogRecordDiff.nullDesc();
+                final FieldStrategy fieldStrategy = newObjectLogRecordDiff.fieldStrategy();
                 // 使用反射获取属性值
                 Field oldField = oldFieldMap.get(newField.getName());
                 newField.setAccessible(true);
@@ -127,6 +129,10 @@ public class ObjectDiffUtil {
                     Object[] oldArr = new Object[]{translatedOldValue};
                     Object[] newArr = new Object[]{translatedNewValue};
                     EditType editType = getEditType(oldArr, newArr, nullDesc);
+                    // 如果是字段更新，前端传null，数据库不为空情况。FieldStrategy为UPDATE才入库，
+                    if (EditType.DELETE.equals(editType) && !FieldStrategy.UPDATE.equals(fieldStrategy)) {
+                        continue;
+                    }
                     FieldDiffDTO fieldDiffDTO = new FieldDiffDTO();
                     fieldDiffDTO.setFieldName(newField.getName())
                             .setName(fieldDesc)

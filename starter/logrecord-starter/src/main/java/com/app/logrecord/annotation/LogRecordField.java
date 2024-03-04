@@ -1,5 +1,6 @@
 package com.app.logrecord.annotation;
 
+import com.app.logrecord.enums.FieldStrategy;
 import com.app.logrecord.translator.Translator;
 import com.app.logrecord.translator.TranslatorTemplate;
 
@@ -22,6 +23,9 @@ public @interface LogRecordField {
 
     /** 空值描述 */
     String nullDesc() default "空";
+
+    /** 填充策略 */
+    FieldStrategy fieldStrategy() default FieldStrategy.DEFAULT;
 
     /** 修改描述翻译（基本数据类型） */
     Class<? extends Translator> translator() default Translator.None.class;

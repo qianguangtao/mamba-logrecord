@@ -5,6 +5,7 @@ import com.app.demo.dictionary.DictionaryEnum;
 import com.app.demo.enums.SexEnum;
 import com.app.demo.translator.AddressTranslatorTemplate;
 import com.app.logrecord.annotation.LogRecordField;
+import com.app.logrecord.enums.FieldStrategy;
 import com.app.logrecord.translator.BoolTranslator;
 import com.app.logrecord.translator.EnumTranslator;
 import com.app.logrecord.translator.ListTranslator;
@@ -34,7 +35,7 @@ import java.util.List;
 public class UserDto {
 
     private Long id;
-    
+
     @LogRecordField(value = "用户名")
     @ApiModelProperty(value = "用户名")
     private String username;
@@ -54,7 +55,7 @@ public class UserDto {
     @Max(100)
     @Min(1)
     @ApiModelProperty(value = "年龄")
-    @LogRecordField(value = "年龄")
+    @LogRecordField(value = "年龄", fieldStrategy = FieldStrategy.UPDATE)
     private Integer age;
     @LogRecordField(value = "用户来源")
     @Dictionary(DictionaryEnum.Names.UserSource)

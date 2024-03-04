@@ -21,7 +21,7 @@ import javax.annotation.Resource;
 public class LogRecordEventHandler extends AbstractEventHandler<ObjectDiffDTO> {
 
     @Resource
-    private OperationService sysOperationService;
+    private OperationService operationService;
 
     @Override
     public boolean filter(Event<ObjectDiffDTO> event) {
@@ -32,7 +32,7 @@ public class LogRecordEventHandler extends AbstractEventHandler<ObjectDiffDTO> {
     public void handler(ObjectDiffDTO objectDiffDTO) {
         try {
             log.info("接收操作记录：{}", JSON.toJSONString(objectDiffDTO));
-            sysOperationService.save(objectDiffDTO);
+            operationService.save(objectDiffDTO);
         } catch (Exception e) {
             log.error("接收操作记录失败：{}", e.getMessage(), e);
         }
