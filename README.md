@@ -119,9 +119,10 @@ public class User extends BaseEntity {
 }
 ```
 #### 框架内置字段显示名转换器Translator
-BoolTranslator
-ListTranslator
-EnumTranslator
+1. BoolTranslator
+2. ListTranslator
+3. EnumTranslator
+   
 要想扩展其他类型，实现interface Translator<IN, OUT>即可
 ```java
 public interface Translator<IN, OUT> {
