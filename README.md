@@ -1,4 +1,4 @@
-﻿﻿﻿# 操作记录
+﻿﻿﻿﻿# 操作记录
 
 ## 前章
 
@@ -123,6 +123,7 @@ public class User extends BaseEntity {
 2. ListTranslator
 3. EnumTranslator
    
+
 要想扩展其他类型，实现interface Translator<IN, OUT>即可
 ```java
 public interface Translator<IN, OUT> {
@@ -266,7 +267,9 @@ public User insert(@LogRecordModel("userDto") UserDto userDto)
 ## 测试
 ### 新增用户
 POST http://127.0.0.1:8080/users
+
 请求参数
+
 ```java
 {
     "source": "1",
@@ -386,12 +389,14 @@ POST http://127.0.0.1:8080/users
 
 ```
 ![image](https://github.com/qianguangtao/mamba-logrecord/assets/6427290/930745cd-6c6a-4c75-806c-5192623394fd)
-数据库截图，其中：
+
+#### 数据库截图
+
 性别枚举SexEnum保存了中文“男性”；
 用户来源保存了字典表dict_item中的中文“系统”；
-operation_field
+表operation_field
 ![image](https://github.com/qianguangtao/mamba-logrecord/assets/6427290/c67d3a53-72a7-4eab-a35e-6df2bb52ee21)
-dict_item
+表dict_item
 ![image](https://github.com/qianguangtao/mamba-logrecord/assets/6427290/6649a52e-8a01-4770-be77-cb7f9e27dd9f)
 
 ### 修改用户
@@ -472,6 +477,8 @@ PUT http://127.0.0.1:8080/users
 ```
 ![image](https://github.com/qianguangtao/mamba-logrecord/assets/6427290/bada427b-2a42-452a-be08-abd83e81aa8f)
 
-operation_field
+#### 数据库截图
+
+表operation_field
 ![image](https://github.com/qianguangtao/mamba-logrecord/assets/6427290/e77785af-2e33-4702-a328-e45fd2107b84)
 
