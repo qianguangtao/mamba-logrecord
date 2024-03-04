@@ -240,3 +240,131 @@ public User insert(@LogRecordModel("userDto") UserDto userDto)
 ```
 
 ## 测试
+### 新增用户
+请求参数
+```java
+{
+    "source": "1",
+    "age": 35,
+    "address": {
+        "country": "中国",
+        "province": "云南省",
+        "city": "六盘水市"
+    },
+    "roles": [
+        "admin",
+        "teacher"
+    ],
+    "sex": "1",
+    "email": "12345@qq.com",
+    "cellphone": "18657158538",
+    "username": "李四"
+}
+```
+日志打印ObjectDiffDTO
+```java
+{
+    "businessId": "5",
+    "description": "新增用户",
+    "fieldDiffDTOList": [
+        {
+            "editType": "SAVE",
+            "fieldName": "country",
+            "name": "国家",
+            "newValue": "中国",
+            "newValueShow": "中国",
+            "oldValueShow": "空"
+        },
+        {
+            "editType": "SAVE",
+            "fieldName": "province",
+            "name": "省",
+            "newValue": "云南省",
+            "newValueShow": "云南省",
+            "oldValueShow": "空"
+        },
+        {
+            "editType": "SAVE",
+            "fieldName": "city",
+            "name": "市",
+            "newValue": "六盘水市",
+            "newValueShow": "六盘水市",
+            "oldValueShow": "空"
+        },
+        {
+            "editType": "SAVE",
+            "fieldName": "sex",
+            "name": "用户类型",
+            "newValue": "Female",
+            "newValueShow": "男性",
+            "oldValueShow": "空"
+        },
+        {
+            "editType": "SAVE",
+            "fieldName": "roles",
+            "name": "用户类型",
+            "newValue": [
+                "admin",
+                "teacher"
+            ],
+            "newValueShow": "[\"admin\",\"teacher\"]",
+            "oldValueShow": "空"
+        },
+        {
+            "editType": "SAVE",
+            "fieldName": "cellphone",
+            "name": "手机号",
+            "newValue": "18657158538",
+            "newValueShow": "18657158538",
+            "oldValueShow": "空"
+        },
+        {
+            "editType": "SAVE",
+            "fieldName": "source",
+            "name": "用户来源",
+            "newValue": "1",
+            "newValueShow": "系统",
+            "oldValueShow": "空"
+        },
+        {
+            "editType": "SAVE",
+            "fieldName": "email",
+            "name": "邮箱",
+            "newValue": "12345@qq.com",
+            "newValueShow": "12345@qq.com",
+            "oldValueShow": "空"
+        },
+        {
+            "editType": "SAVE",
+            "fieldName": "age",
+            "name": "年龄",
+            "newValue": 35,
+            "newValueShow": 35,
+            "oldValueShow": "空"
+        },
+        {
+            "editType": "SAVE",
+            "fieldName": "username",
+            "name": "用户名",
+            "newValue": "李四",
+            "newValueShow": "李四",
+            "oldValueShow": "空"
+        }
+    ],
+    "jsonAfter": "{\"address\":{\"city\":\"六盘水市\",\"country\":\"中国\",\"province\":\"云南省\"},\"age\":35,\"cellphone\":\"18657158538\",\"email\":\"12345@qq.com\",\"roles\":[\"admin\",\"teacher\"],\"sex\":\"Female\",\"source\":\"1\",\"username\":\"李四\"}",
+    "jsonBefore": "{}",
+    "logOperate": "SAVE",
+    "newClassName": "com.app.demo.pojo.dto.UserDto",
+    "oldClassName": "com.app.demo.entity.User",
+    "operatorName": "ANONYMOUS"
+}
+
+```
+![image](https://github.com/qianguangtao/mamba-logrecord/assets/6427290/930745cd-6c6a-4c75-806c-5192623394fd)
+数据库截图，其中：
+性别枚举SexEnum保存了中文“男性”；
+用户来源保存了字典表dict_item中的中文“系统”；
+![image](https://github.com/qianguangtao/mamba-logrecord/assets/6427290/c67d3a53-72a7-4eab-a35e-6df2bb52ee21)
+![image](https://github.com/qianguangtao/mamba-logrecord/assets/6427290/6649a52e-8a01-4770-be77-cb7f9e27dd9f)
+
+
