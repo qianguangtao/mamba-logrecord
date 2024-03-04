@@ -214,6 +214,10 @@ public @interface LogRecord {
 }
 ```
 
+最终LogRecordAop中会获取到比较结果，通过Disruptor队列入库
+
+![image](https://github.com/qianguangtao/mamba-logrecord/assets/6427290/1687fca1-7313-4b30-b1fa-a4b8aaac711a)
+
 #### 新增service接口
 
 key = "#result.id"，使用Spel从返回值中取businessId
