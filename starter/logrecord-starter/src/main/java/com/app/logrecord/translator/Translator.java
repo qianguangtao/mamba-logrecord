@@ -8,9 +8,9 @@ package com.app.logrecord.translator;
 public interface Translator<IN, OUT> {
 
     /**
-     * @author qiangt
-     * @date 2023/9/29
-     * @apiNote 将输入IN转成输出OUT
+     * 将输入IN转成输出OUT
+     * @param var
+     * @return
      */
     OUT translate(IN var);
 
