@@ -241,6 +241,7 @@ public User insert(@LogRecordModel("userDto") UserDto userDto)
 
 ## 测试
 ### 新增用户
+POST http://127.0.0.1:8080/users
 请求参数
 ```java
 {
@@ -364,7 +365,89 @@ public User insert(@LogRecordModel("userDto") UserDto userDto)
 数据库截图，其中：
 性别枚举SexEnum保存了中文“男性”；
 用户来源保存了字典表dict_item中的中文“系统”；
+operation_field
 ![image](https://github.com/qianguangtao/mamba-logrecord/assets/6427290/c67d3a53-72a7-4eab-a35e-6df2bb52ee21)
+dict_item
 ![image](https://github.com/qianguangtao/mamba-logrecord/assets/6427290/6649a52e-8a01-4770-be77-cb7f9e27dd9f)
 
+### 修改用户
+PUT http://127.0.0.1:8080/users
+请求参数
+手机号：18657158538改成18682575358
+地址：云南省六盘水市改成安徽省芜湖市
+年龄：35改36
+```java
+{
+    "email": "12345@qq.com",
+    "roles": [
+        "admin",
+        "teacher"
+    ],
+    "id": 5,
+    "cellphone": "18682575358",
+    "address": {
+        "city": "芜湖市",
+        "province": "安徽省",
+        "country": "中国"
+    },
+    "username": "李四",
+    "age": 36
+}
+```
+日志打印ObjectDiffDTO
+```java
+{
+    "businessId": "5",
+    "description": "更新用户",
+    "fieldDiffDTOList": [
+        {
+            "editType": "UPDATE",
+            "fieldName": "province",
+            "name": "省",
+            "newValue": "安徽省",
+            "newValueShow": "安徽省",
+            "oldValue": "云南省",
+            "oldValueShow": "云南省"
+        },
+        {
+            "editType": "UPDATE",
+            "fieldName": "city",
+            "name": "市",
+            "newValue": "芜湖市",
+            "newValueShow": "芜湖市",
+            "oldValue": "六盘水市",
+            "oldValueShow": "六盘水市"
+        },
+        {
+            "editType": "UPDATE",
+            "fieldName": "cellphone",
+            "name": "手机号",
+            "newValue": "18682575358",
+            "newValueShow": "18682575358",
+            "oldValue": "18657158538",
+            "oldValueShow": "18657158538"
+        },
+        {
+            "editType": "UPDATE",
+            "fieldName": "age",
+            "name": "年龄",
+            "newValue": 36,
+            "newValueShow": 36,
+            "oldValue": 35,
+            "oldValueShow": 35
+        }
+    ],
+    "jsonAfter": "{\"address\":{\"city\":\"芜湖市\",\"country\":\"中国\",\"province\":\"安徽省\"},\"age\":36,\"cellphone\":\"18682575358\",\"email\":\"12345@qq.com\",\"id\":5,\"roles\":[\"admin\",\"teacher\"],\"username\":\"李四\"}",
+    "jsonBefore": "{\"address\":\"{\\\"city\\\": \\\"六盘水市\\\", \\\"country\\\": \\\"中国\\\", \\\"province\\\": \\\"云南省\\\"}\",\"age\":35,\"cellphone\":\"18657158538\",\"createBy\":922337203685477,\"createTime\":1709535747000,\"deleted\":false,\"email\":\"12345@qq.com\",\"enabled\":true,\"id\":5,\"roles\":[\"admin\",\"teacher\"],\"sex\":\"Female\",\"source\":\"1\",\"updateBy\":922337203685477,\"updateTime\":1709535747000,\"username\":\"李四\"}",
+    "logOperate": "UPDATE",
+    "newClassName": "com.app.demo.pojo.dto.UserDto",
+    "oldClassName": "com.app.demo.entity.User",
+    "operatorName": "ANONYMOUS"
+}
+
+```
+![image](https://github.com/qianguangtao/mamba-logrecord/assets/6427290/bada427b-2a42-452a-be08-abd83e81aa8f)
+
+operation_field
+![image](https://github.com/qianguangtao/mamba-logrecord/assets/6427290/e77785af-2e33-4702-a328-e45fd2107b84)
 
