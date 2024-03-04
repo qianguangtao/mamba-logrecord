@@ -6,6 +6,7 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
+import com.app.core.disruptor.DisruptorPublisher;
 import com.app.core.mybatis.BaseEntity;
 import com.app.core.security.ResourceOwnerContext;
 import com.app.core.util.SpelUtil;
@@ -109,7 +110,7 @@ public class LogRecordAop {
                 objectDiffDTO.setJsonAfter(JSON.toJSONString(paramObj));
                 objectDiffDTO.setLogOperate(LogOperate.getLogOperateByCode(logRecord.operateType()));
                 log.info("发送操作记录：{}", JSON.toJSONString(objectDiffDTO));
-                // DisruptorPublisher.send(objectDiffDTO);
+                DisruptorPublisher.send(objectDiffDTO);
             }
         } catch (Exception e) {
             log.error("操作记录aop，执行切面方法后异常：{}", e.getMessage(), e);

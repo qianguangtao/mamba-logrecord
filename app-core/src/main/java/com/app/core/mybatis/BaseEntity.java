@@ -23,7 +23,6 @@ import java.util.Date;
  * @author qiangt
  * @since 2019-12-31
  */
-//@EqualsAndHashCode(callSuper = true)
 @Data
 @Slf4j
 public class BaseEntity implements Serializable {
